@@ -4,7 +4,7 @@
 <dict>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Anuphan.ttf</string>
+		<string>Anuphan[wght].ttf</string>
 		<string>MergeOne-Regular.ttf</string>
 	</array>
 </dict>
