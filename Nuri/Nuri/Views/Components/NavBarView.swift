@@ -11,7 +11,6 @@ struct NavBarView: View {
     var body: some View {
         HStack(spacing: 65) {
             
-            // HOME
             NavigationLink(destination: HomeView()) {
                 VStack {
                     Image("Home Icon")
@@ -21,7 +20,7 @@ struct NavBarView: View {
                 }
             }
 
-            // SCAN
+
             NavigationLink(destination: ScanView()) {
                 VStack {
                     Image("Camera Icon")
@@ -31,7 +30,7 @@ struct NavBarView: View {
                 }
             }
 
-            // PROFILE
+
             NavigationLink(destination: ProfileView()) {
                 VStack {
                     Image("Profile Icon")
@@ -41,7 +40,7 @@ struct NavBarView: View {
                 }
             }
 
-            // SAVED
+
             NavigationLink(destination: SavedView()) {
                 VStack {
                     Image("Bookmark Icon")
