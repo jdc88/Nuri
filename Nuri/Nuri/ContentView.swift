@@ -11,31 +11,34 @@ struct ContentView: View {
     @State private var showLogin = false
 
     var body: some View {
-        ZStack {
-            Color(red: 248/255, green: 238/255, blue: 233/255)
-                .edgesIgnoringSafeArea(.all)
+        NavigationStack {
+            ZStack {
+                Color(red: 248/255, green: 238/255, blue: 233/255)
+                    .edgesIgnoringSafeArea(.all)
 
-            Image("Nuri Logo")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 231)
-                .opacity(showLogin ? 0 : 1)
+                Image("Nuri Logo")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 231)
+                    .opacity(showLogin ? 0 : 1)
 
-            // Login page
-            if showLogin {
-                LoginSignupView()
-                    .transition(.opacity)
+                // Login page
+                if showLogin {
+                    LoginSignupView()
+                        .transition(.opacity)
+                }
             }
-        }
-        .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                withAnimation(.easeInOut(duration: 1.0)) {
-                    showLogin = true
+            .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    withAnimation(.easeInOut(duration: 1.0)) {
+                        showLogin = true
+                    }
                 }
             }
         }
     }
 }
+
 
 // Second page
 struct LoginSignupView: View {
@@ -103,4 +106,3 @@ struct LoginSignupView: View {
 #Preview {
     LoginSignupView()
 }
-

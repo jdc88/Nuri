@@ -11,7 +11,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		C94C301D2EC98B8900A8FD0B /* Exceptions for "Nuri" folder in "Nuri" target */ = {
+		1B3EB98C2ECC2E550019C3EB /* Exceptions for "Nuri" folder in "Nuri" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -24,7 +24,7 @@
 		C9D6F6B82EB8610300E80769 /* Nuri */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				C94C301D2EC98B8900A8FD0B /* Exceptions for "Nuri" folder in "Nuri" target */,
+				1B3EB98C2ECC2E550019C3EB /* Exceptions for "Nuri" folder in "Nuri" target */,
 			);
 			path = Nuri;
 			sourceTree = "<group>";
@@ -267,7 +267,6 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Nuri/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Nuri/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -296,7 +295,6 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Nuri/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Nuri/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
