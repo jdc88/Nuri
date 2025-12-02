@@ -21,16 +21,6 @@ struct NavBarView: View {
             }
 
 
-            NavigationLink(destination: ScanView()) {
-                VStack {
-                    Image("Camera Icon")
-                    Text("Scan")
-                        .foregroundColor(.white)
-                        .font(.custom("Anuphan", size: 12))
-                }
-            }
-
-
             NavigationLink(destination: ProfileView()) {
                 VStack {
                     Image("Profile Icon")

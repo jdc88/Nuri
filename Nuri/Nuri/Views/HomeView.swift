@@ -27,6 +27,7 @@ struct HomeView: View {
                             .font(.custom("Anuphan", size: 20))
 
                         // Search Bar
+                        
                         HStack {
                             TextField("Search Product", text: $productName)
                                 .autocapitalization(.none)
@@ -43,6 +44,14 @@ struct HomeView: View {
                                 .stroke(Color(red: 105/255, green: 101/255, blue: 193/255), lineWidth: 1)
                         )
                         .frame(maxWidth: 350)
+                        
+                        Text("Or").foregroundColor(Color(red: 105/255, green:101/255, blue: 193/255))
+                            .font(.custom("Anuphan", size: 20))
+                        
+                        // Add upload image button
+                        Button("Upload Image") {
+                            
+                        }
 
                         Rectangle()
                             .fill(Color(red: 105/255, green: 101/255, blue: 193/255))
