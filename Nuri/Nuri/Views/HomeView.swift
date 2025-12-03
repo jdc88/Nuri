@@ -49,9 +49,16 @@ struct HomeView: View {
                             .font(.custom("Anuphan", size: 20))
                         
                         // Add upload image button
-                        Button("Upload Image") {
-                            
+                        Button(action: {}) {
+                            Text("Upload Image")
+                                .padding(.vertical, 12)
+                                .padding(.horizontal, 20)
+                                .foregroundColor(.white)
+                                .font(.system(size: 16, weight: .semibold))
                         }
+                        .background(Color(red: 105/255, green: 101/255, blue: 193/255))
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+
 
                         Rectangle()
                             .fill(Color(red: 105/255, green: 101/255, blue: 193/255))

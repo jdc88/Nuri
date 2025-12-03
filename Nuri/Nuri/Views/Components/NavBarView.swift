@@ -9,7 +9,7 @@ import SwiftUI
 
 struct NavBarView: View {
     var body: some View {
-        HStack(spacing: 65) {
+        HStack(spacing: 55) {
             
             NavigationLink(destination: HomeView()) {
                 VStack {
@@ -25,6 +25,15 @@ struct NavBarView: View {
                 VStack {
                     Image("Profile Icon")
                     Text("Profile")
+                        .foregroundColor(.white)
+                        .font(.custom("Anuphan", size: 12))
+                }
+            }
+            
+            NavigationLink(destination: RecommendView()) {
+                VStack {
+                    Image("Recommend Icon")
+                    Text("Recommend")
                         .foregroundColor(.white)
                         .font(.custom("Anuphan", size: 12))
                 }
