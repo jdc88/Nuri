@@ -26,13 +26,28 @@ struct ProfileView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.horizontal, 20).padding(.bottom, 7)
                         
-                        HStack{
-                            Text("Skin Type").foregroundColor(Color(red: 91/255, green:36/255, blue: 122/255))
-                                .font(.custom("Anuphan", size: 20)).frame(maxWidth: .infinity, alignment: .leading)
-                                .padding(.horizontal, 20)
-                            
-                            // Need to add button for user to click and update the preferences they set when creating the acccount
+                        HStack {
+                            Text("Skin Type")
+                                .foregroundColor(Color(red: 91/255, green:36/255, blue: 122/255))
+                                .font(.custom("Anuphan", size: 20))
+
+                            Spacer()
+
+                            Button(action: {
+                                // TODO: Add the proper functionality for user to edit their skin type
+                                print("Update tapped")
+                            }) {
+                                Text("Update")
+                                    .font(.system(size: 13, weight: .semibold))
+                                    .foregroundColor(.white)
+                                    .padding(.vertical, 6)
+                                    .padding(.horizontal, 18)
+                                    .background(Color(red: 127/255, green:96/255, blue: 112/255))
+                                    .cornerRadius(10)
+                            }
                         }
+                        .padding(.horizontal, 20)
+
                         
                         
                         Rectangle().fill(Color(red: 154/255, green:152/255, blue: 216/255).opacity(0.52)).frame(height: 2).frame(maxWidth: 350)
