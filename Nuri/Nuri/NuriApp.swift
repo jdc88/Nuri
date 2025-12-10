@@ -6,6 +6,19 @@
 //
 
 import SwiftUI
+import CoreData
+
+//class PersistenceContainer {
+//    static let shared = PersistenceContainer()
+//    let container: NSPersistentContainer
+//    
+//    init(inMemory: Bool = false) {
+//        
+//    }
+//}
+
+
+// app starting point
 
 @main
 struct NuriApp: App {
