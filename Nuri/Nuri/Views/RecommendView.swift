@@ -18,15 +18,21 @@ struct RecommendView: View {
                 
                 TopBarView()
                 ScrollView {
-                    VStack(spacing: 30) {
+                    VStack(spacing: 15) {
+                        
                         // Need to add logic for ai recommendations
+                        Text("Recommendations")
+                            .font(.custom("Anuphan", size: 30))
+                            .foregroundColor(Color(red: 127/255, green:96/255, blue: 112/255))
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.horizontal, 20).padding(.bottom, 7)
                     }
                     .padding(.top, 20) // Space below top bar
                 }
                 NavBarView()
                     .ignoresSafeArea(edges: .bottom)
             }
-        }
+        }.ignoresSafeArea(.container, edges: .top)
     }
 }
 

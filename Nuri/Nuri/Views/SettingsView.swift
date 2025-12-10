@@ -92,16 +92,6 @@ struct SettingsView: View {
                                 Spacer()
                             }
                             
-                            Rectangle().fill(Color.white.opacity(0.38)).frame(height: 1).frame(maxWidth: .infinity)
-
-                            HStack {
-                                Toggle("Ingredient Alerts", isOn: $isEnabled2)
-                                    .font(.custom("Anuphan", size: 17))
-                                    .foregroundColor(Color(red: 105/255, green: 101/255, blue: 193/255))
-                                    .toggleStyle(SwitchToggleStyle(tint: Color(red: 127/255, green:96/255, blue: 112/255)))
-                                
-                                Spacer()
-                            }
                         }
 
                         Spacer()
