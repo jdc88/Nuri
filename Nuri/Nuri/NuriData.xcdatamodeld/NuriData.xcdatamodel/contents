@@ -1,2 +1,50 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="23605" systemVersion="24C101" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier=""/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="23605" systemVersion="24G325" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+    <entity name="AppProduct" representedClassName="AppProduct" syncable="YES">
+        <attribute name="barcode" optional="YES" attributeType="String"/>
+        <attribute name="brand" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="last_updated_at" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="ingredients" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Ingredient" inverseName="products" inverseEntity="Ingredient"/>
+        <relationship name="savedBy" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SavedProduct" inverseName="product" inverseEntity="SavedProduct"/>
+    </entity>
+    <entity name="Entity" representedClassName="Entity" syncable="YES" codeGenerationType="class"/>
+    <entity name="Ingredient" representedClassName="Ingredient" syncable="YES">
+        <attribute name="display_name" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="isAllergen" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="lowercase_name" optional="YES" attributeType="String"/>
+        <relationship name="products" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="AppProduct" inverseName="ingredients" inverseEntity="AppProduct"/>
+    </entity>
+    <entity name="Preference" representedClassName="Preference" syncable="YES">
+        <attribute name="classification" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="type" optional="YES" attributeType="String"/>
+        <relationship name="ingredient" maxCount="1" deletionRule="Nullify" destinationEntity="Ingredient"/>
+        <relationship name="user" maxCount="1" deletionRule="Cascade" destinationEntity="UserProfile" inverseName="preferences" inverseEntity="UserProfile"/>
+    </entity>
+    <entity name="SavedProduct" representedClassName="SavedProduct" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="note" optional="YES" attributeType="String"/>
+        <attribute name="saved_at" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="product" maxCount="1" deletionRule="Nullify" destinationEntity="AppProduct" inverseName="savedBy" inverseEntity="AppProduct"/>
+        <relationship name="user" maxCount="1" deletionRule="Cascade" destinationEntity="UserProfile" inverseName="savedProducts" inverseEntity="UserProfile"/>
+    </entity>
+    <entity name="Settings" representedClassName="Settings" syncable="YES" codeGenerationType="class">
+        <attribute name="attribute" optional="YES"/>
+        <attribute name="email" optional="YES" attributeType="String"/>
+        <attribute name="language" optional="YES" attributeType="String"/>
+        <attribute name="lowercase_name" optional="YES" attributeType="String"/>
+        <attribute name="notifications_flag" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="password" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="UserProfile" representedClassName="UserProfile" syncable="YES">
+        <attribute name="created_at" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="skin_type" optional="YES" attributeType="String"/>
+        <attribute name="user_id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="username" optional="YES" attributeType="String"/>
+        <relationship name="preferences" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Preference" inverseName="user" inverseEntity="Preference"/>
+        <relationship name="savedProducts" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="SavedProduct" inverseName="user" inverseEntity="SavedProduct"/>
+    </entity>
+</model>
