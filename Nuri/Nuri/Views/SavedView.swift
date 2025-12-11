@@ -25,7 +25,7 @@ struct SavedView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.horizontal, 20).padding(.bottom, 7)
                         
-                        // Need to fetch data from the product's profile where user hits save to list then style it
+                        // TODO: Need to fetch data from the product's profile where user hits save to list then style it
                     }
                     .padding(.top, 20) // Space below top bar
                 }

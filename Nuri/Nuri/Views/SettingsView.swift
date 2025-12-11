@@ -29,19 +29,28 @@ struct SettingsView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.horizontal, 20).padding(.bottom, 7)
 
-                        HStack{
+                        HStack {
                             Text("Account")
                                 .font(.custom("Anuphan", size: 20))
                                 .foregroundColor(Color(red: 127/255, green:96/255, blue: 112/255))
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding(.horizontal, 20)
-                            
-                            Text("Update").font(.custom("Anuphan", size: 15))
-                                .foregroundColor(Color(red: 127/255, green:96/255, blue: 112/255))
-                                .frame(maxWidth: .infinity, alignment: .trailing).padding(.horizontal, 20)
-                            
-                            // Need to change this update text to a button where the user can edit their information. Need to get data from login/sign up page
+
+                            Spacer()
+
+                            Button(action: {
+                                // TODO: Add proper functionality to edit user information
+                                print("Update tapped")
+                            }) {
+                                Text("Update")
+                                    .font(.system(size: 13, weight: .semibold))
+                                    .foregroundColor(.white)
+                                    .padding(.vertical, 5)
+                                    .padding(.horizontal, 20)
+                                    .background(Color(red: 127/255, green:96/255, blue: 112/255))
+                                    .cornerRadius(10)
+                            }
                         }
+                        .padding(.horizontal, 20)
+
 
                         SettingsCard {
                             SettingRow(label: "Full Name", value: "John Doe")
@@ -124,6 +133,7 @@ struct SettingsView: View {
         }
         .ignoresSafeArea(.container, edges: .top)
     }
+    // TODO: Add a logout button somewhere
 }
 
 #Preview {
