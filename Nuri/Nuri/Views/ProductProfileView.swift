@@ -62,12 +62,6 @@ struct ProductProfileView: View {
                                         .padding(.top, 8)
                                     Text(barcode)
                                 }
-
-                                Text("INCI List:")
-                                    .font(.headline)
-                                    .padding(.top, 8)
-                                Text(product.inciList ?? "No INCI list available.")
-                                    .font(.subheadline)
                             }
 
                             if !ingredientsArray.isEmpty {

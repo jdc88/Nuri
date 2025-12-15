@@ -37,7 +37,7 @@ struct SavedView: View {
                         List {
                             ForEach(savedProducts) { saved in
                                 if let product = saved.product {
-                                    NavigationLink(destination: ProductDetailView(product: product)) {
+                                    NavigationLink(destination: ProductProfileView(product: product)) {
                                         HStack {
                                             if let isUnsafe = product.ingredients?
                                                 .compactMap({ ($0 as? Ingredient)?.isAllergen })

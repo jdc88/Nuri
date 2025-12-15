@@ -19,6 +19,38 @@ struct MatchingResultsView: View {
         animation: .default
     )
     private var products: FetchedResults<AppProduct>
+    
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \SavedProduct.saved_at, ascending: false)],
+        animation: .default
+    )
+    
+    private var savedProducts: FetchedResults<SavedProduct>
+    
+    // helper functions to saved the project
+    private func isSaved(_ product: AppProduct) -> Bool {
+        savedProducts.contains(where: {$0.product == product})
+    }
+    
+    private func toggleSaved(for product: AppProduct) {
+        if let existing = savedProducts.first(where: { $0.product == product }) {
+            // unsaving logic
+            viewContext.delete(existing)
+        } else {
+            // saving logic
+            let saved = SavedProduct(context: viewContext)
+            saved.id = UUID()
+            saved.saved_at = Date()
+            saved.product = product
+        }
+
+        do {
+            try viewContext.save()
+        } catch {
+            print("Error toggling saved status: \(error.localizedDescription)")
+        }
+    }
+
 
     // based on the search, filter the products
     private var filteredProducts: [AppProduct] {
@@ -42,7 +74,7 @@ struct MatchingResultsView: View {
     
     var body: some View {
         // DEBUG: see what Core Data has
-        print("Search text: \(searchText)")
+        print("Searched text: \(searchText)")
         print("Total products in Core Data: \(products.count)")
         print("Filtered products: \(filteredProducts.count)")
         
@@ -61,7 +93,6 @@ struct MatchingResultsView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.horizontal, 20).padding(.bottom, 7)
                         
-                        // TODO: Add product list
                         if filteredProducts.isEmpty {
                             Text("No matching products found.").foregroundColor(.secondary).frame(maxWidth: .infinity, alignment: .leading).padding(.horizontal, 20)
                         } else {
@@ -82,7 +113,6 @@ struct MatchingResultsView: View {
             }
         }
     }
-}
 
 @ViewBuilder
 private func displayProductRow(for product: AppProduct) -> some View {
@@ -113,6 +143,14 @@ private func displayProductRow(for product: AppProduct) -> some View {
         }
 
         Spacer()
+        
+        // save button
+        Button(action: {
+            toggleSaved(for: product)
+        }) {
+            Image(systemName: isSaved(product) ? "bookmark.fill" : "bookmark")
+        }
+        .buttonStyle(.plain)
     }
     .padding(.vertical, 8)
     .background(
@@ -121,7 +159,9 @@ private func displayProductRow(for product: AppProduct) -> some View {
             .shadow(radius: 1, y: 1)
         )
     }
-
-#Preview {
-    MatchingResultsView(searchText: "serum").environment(\.managedObjectContext, PreviewPersistenceController(inMemory: true).container.viewContext)
 }
+
+
+//#Preview {
+//    MatchingResultsView(searchText: "serum").environment(\.managedObjectContext, PreviewPersistenceController(inMemory: true).container.viewContext)
+//}
