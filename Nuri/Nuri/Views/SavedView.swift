@@ -16,7 +16,7 @@ struct SavedView: View {
 
             VStack(spacing: 0) {
                 
-                TopBarView()
+                TopBar()
                 ScrollView {
                     VStack(spacing: 30) {
                         Text("Saved Products")
@@ -29,7 +29,7 @@ struct SavedView: View {
                     }
                     .padding(.top, 20) // Space below top bar
                 }
-                NavBarView()
+                NavBar()
                     .ignoresSafeArea(edges: .bottom)
             }
         }

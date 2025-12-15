@@ -1,5 +1,5 @@
 //
-//  NavBarView.swift
+//  NavBar.swift
 //  Nuri
 //
 //  Created by sama saad on 11/18/25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct NavBarView: View {
+struct NavBar: View {
     var body: some View {
         HStack(spacing: 55) {
             
@@ -42,7 +42,7 @@ struct NavBarView: View {
 
             NavigationLink(destination: SavedView()) {
                 VStack {
-                    Image("Bookmark Icon")
+                    Image("BookMark Icon")
                     Text("Saved")
                         .foregroundColor(.white)
                         .font(.custom("Anuphan", size: 12))

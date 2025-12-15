@@ -20,7 +20,7 @@ struct HomeView: View {
 
             VStack(spacing: 0) {
 
-                TopBarView()
+                TopBar()
 
                 ScrollView {
                     VStack(spacing: 30) {
@@ -123,7 +123,7 @@ struct HomeView: View {
                     .padding(.top, 20)
                 }
 
-                NavBarView()
+                NavBar()
                     .ignoresSafeArea(edges: .bottom)
             }
         }
