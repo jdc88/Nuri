@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct TopBarView: View {
+struct TopBar: View {
     var body: some View {
         HStack {
             Image("Nuri Logo")
