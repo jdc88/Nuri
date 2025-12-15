@@ -18,7 +18,7 @@ struct SettingsView: View {
                 .ignoresSafeArea()
 
             VStack(spacing: 0) {
-                TopBarView()
+                TopBar()
 
                 ScrollView {
                     VStack(spacing: 15) {
@@ -117,7 +117,7 @@ struct SettingsView: View {
                     .padding(.top, 20)
                 }
 
-                NavBarView()
+                NavBar()
                     .ignoresSafeArea(edges: .bottom)
             }
         }

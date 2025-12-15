@@ -16,7 +16,7 @@ struct RecommendView: View {
 
             VStack(spacing: 0) {
                 
-                TopBarView()
+                TopBar()
                 ScrollView {
                     VStack(spacing: 15) {
                         
@@ -29,7 +29,7 @@ struct RecommendView: View {
                     }
                     .padding(.top, 20) // Space below top bar
                 }
-                NavBarView()
+                NavBar()
                     .ignoresSafeArea(edges: .bottom)
             }
         }.ignoresSafeArea(.container, edges: .top)
