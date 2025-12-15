@@ -2,7 +2,7 @@
 //  Ingredient+CoreDataProperties.swift
 //  Nuri
 //
-//  Created by Nicklaus Marietta on 12/7/25.
+//  Created by Nicklaus Marietta on 12/14/25.
 //
 //
 
@@ -21,6 +21,7 @@ extension Ingredient {
     @NSManaged public var isAllergen: Bool
     @NSManaged public var lowercase_name: String?
     @NSManaged public var products: NSSet?
+    @NSManaged public var avoidingPreference: Preference?
 
 }
 

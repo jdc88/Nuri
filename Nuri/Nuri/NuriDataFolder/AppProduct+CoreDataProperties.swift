@@ -2,7 +2,7 @@
 //  AppProduct+CoreDataProperties.swift
 //  Nuri
 //
-//  Created by Nicklaus Marietta on 12/7/25.
+//  Created by Nicklaus Marietta on 12/14/25.
 //
 //
 
@@ -21,6 +21,7 @@ extension AppProduct {
     @NSManaged public var id: UUID?
     @NSManaged public var last_updated_at: Date?
     @NSManaged public var name: String?
+    @NSManaged public var inciList: String?
     @NSManaged public var ingredients: NSOrderedSet?
     @NSManaged public var savedBy: NSSet?
 

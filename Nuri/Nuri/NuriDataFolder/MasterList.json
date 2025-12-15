@@ -1,0 +1,32 @@
+[
+  {
+    "id": "0208AE2A-23A9-4250-B045-5A37CBDB766E",
+    "name": "Hyrdating Oil Face Cleanser",
+    "brand": "Norwex",
+    "inciList": "Water, Glycerin, PEG-200 Hydrogenated Glyceryl Palmate, Coco-Betaine, Disodium Cocoyl Glutamate, Peg-120 Methyl Glucose Dioleate, Peg-7 Glyceryl Cocoate, Squalane, Cereamide NP, Ceramide A, Ceramide EOP, Carbomer, Triethyl Citrate, Sodium Chloride, Sodium Hydroxide, Sodium Cocoyl Glutamate, Sodium Benzoate"
+  },
+  {
+    "id": "764261C7-B9CB-4F3A-824E-92A564F61B0C",
+    "name": "Test Face Wash",
+    "brand": "RandomCompany1",
+    "inciList": "Water, Ethylhexyl Methoxycinnamate, Octinoxate, Fragrance, EDTA"
+  },
+  {
+    "id": "4F2DD727-8333-468D-BF59-B9A1EAD40E99",
+    "name": "Test Facial Lotion",
+    "brand": "RandomCompany2",
+    "inciList": "Water, Hydrogen, Octinoxate, Fragrance, EDTA"
+  },
+  {
+    "id": "5F28B2A9-8E8F-454A-8FB9-08EB17A5AB63",
+    "name": "Test Makeup",
+    "brand": "RandomCompany3",
+    "inciList": "Water, Ethylhexyl Methoxycinnamate, Octinoxate, Fragrance, EDTA"
+  },
+  {
+    "id": "8AFC450A-7CCD-422C-9242-3173CB6B6C21",
+    "name": "Test Pimple Patch",
+    "brand": "RandomCompany4",
+    "inciList": "Water, Ethylhexyl Methoxycinnamate, Octinoxate, Fragrance, EDTA"
+  }
+]

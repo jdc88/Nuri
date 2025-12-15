@@ -4,24 +4,25 @@
         <attribute name="barcode" optional="YES" attributeType="String"/>
         <attribute name="brand" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="inciList" optional="YES" attributeType="String"/>
         <attribute name="last_updated_at" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <relationship name="ingredients" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Ingredient" inverseName="products" inverseEntity="Ingredient"/>
         <relationship name="savedBy" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SavedProduct" inverseName="product" inverseEntity="SavedProduct"/>
     </entity>
-    <entity name="Entity" representedClassName="Entity" syncable="YES" codeGenerationType="class"/>
     <entity name="Ingredient" representedClassName="Ingredient" syncable="YES">
         <attribute name="display_name" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="isAllergen" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="lowercase_name" optional="YES" attributeType="String"/>
+        <relationship name="avoidingPreference" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Preference" inverseName="avoidedIngredients" inverseEntity="Preference"/>
         <relationship name="products" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="AppProduct" inverseName="ingredients" inverseEntity="AppProduct"/>
     </entity>
     <entity name="Preference" representedClassName="Preference" syncable="YES">
         <attribute name="classification" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="type" optional="YES" attributeType="String"/>
-        <relationship name="ingredient" maxCount="1" deletionRule="Nullify" destinationEntity="Ingredient"/>
+        <relationship name="avoidedIngredients" toMany="YES" deletionRule="Nullify" destinationEntity="Ingredient" inverseName="avoidingPreference" inverseEntity="Ingredient"/>
         <relationship name="user" maxCount="1" deletionRule="Cascade" destinationEntity="UserProfile" inverseName="preferences" inverseEntity="UserProfile"/>
     </entity>
     <entity name="SavedProduct" representedClassName="SavedProduct" syncable="YES">
@@ -32,7 +33,6 @@
         <relationship name="user" maxCount="1" deletionRule="Cascade" destinationEntity="UserProfile" inverseName="savedProducts" inverseEntity="UserProfile"/>
     </entity>
     <entity name="Settings" representedClassName="Settings" syncable="YES" codeGenerationType="class">
-        <attribute name="attribute" optional="YES"/>
         <attribute name="email" optional="YES" attributeType="String"/>
         <attribute name="language" optional="YES" attributeType="String"/>
         <attribute name="lowercase_name" optional="YES" attributeType="String"/>
