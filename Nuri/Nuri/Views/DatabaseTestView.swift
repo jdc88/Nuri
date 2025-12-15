@@ -16,6 +16,8 @@ class MasterList: Identifiable, Decodable {
     let name: String
     let brand: String
     let inciList: String
+    let imageName: String?   // must match JSON key
+    let barcode: String?
 }
 
 class MasterDataLoader {
@@ -30,7 +32,7 @@ class MasterDataLoader {
             let products = try decoder.decode([MasterList].self, from: data)
             return products
         } catch {
-            print("JSON Decoding Error, failed on MasterList.json")
+            print("JSON Decoding Error, failed on MasterList.json: \(error)")
             fatalError("MasterList Error")
         }
     }
@@ -56,88 +58,63 @@ class PreviewPersistenceController {
     }
 }
 
-
 struct DatabaseTestView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
     @FetchRequest(
-        // order the results with sortdescriptor
         sortDescriptors: [NSSortDescriptor(keyPath: \AppProduct.name, ascending: true)],
         animation: .default
     )
-    // array will be populated with the saved products
-    private var products: FetchedResults<Nuri.AppProduct>
+    private var products: FetchedResults<AppProduct>
 
     var body: some View {
         NavigationStack {
             List {
-                // iterate over the fetched products and then display their name
                 ForEach(products) { product in
-                    HStack {
-                        if let isUnsafe = product.ingredients?.compactMap({ ($0 as? Ingredient)?.isAllergen }).contains(true), isUnsafe {
-                            Image(systemName: "flag.fill").foregroundColor(.red)
+                    HStack(spacing: 12) {
+                        // Image
+                        if let imageName = product.imageName, !imageName.isEmpty {
+                            Image(imageName)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 40, height: 40)
+                                .clipShape(RoundedRectangle(cornerRadius: 8))
+                                .clipped()
+                        } else {
+                            RoundedRectangle(cornerRadius: 8)
+                                .frame(width: 40, height: 40)
+                                .overlay(
+                                    Image(systemName: "photo")
+                                )
+                                .foregroundStyle(.secondary)
+                                .opacity(0.3)
                         }
-                        
-                        Text(product.name ?? "Unnamed Product")
-                            .font(.headline)
-                        
-                        Spacer()
-                        
-                        Text(product.brand ?? "No Brand")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
+
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(product.name ?? "Unnamed Product")
+                                .font(.headline)
+                            
+                            Text(product.brand ?? "No Brand")
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                            
+                            if let barcode = product.barcode {
+                                Text("Barcode: \(barcode)")
+                                    .font(.caption2)
+                                    .foregroundColor(.secondary)
+                            }
+                        }
                     }
                 }
             }
             .navigationTitle("Database Products")
-            
-            // add button
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Add Test Product", action: addTestProducts)
+                Button("Add Test Product") {
+                    addTestProducts()
                 }
             }
-            .onAppear {
-                createTestPreferenceAndAvoidedIngredients()
-            }
         }
     }
-    
-    private func createTestPreferenceAndAvoidedIngredients() {
-                
-        let fetchRequest: NSFetchRequest<Preference> = Preference.fetchRequest()
-        do {
-            let count = try viewContext.count(for: fetchRequest)
-            if count > 0 {
-                print("Preference entity already exists.")
-                return
-            }
-        } catch {
-            print("Error checking Preference count: \(error)")
-        }
-        
-        let userPreference = Preference(context: viewContext)
-        userPreference.id = UUID()
-        
-        // Use a list that will definitely conflict with your JSON data for testing
-        let ingredientsToAvoid = ["Paraben", "Fragrance", "EDTA"]
-
-        for name in ingredientsToAvoid {
-            let avoidedIngredient = Ingredient(context: viewContext)
-            avoidedIngredient.display_name = name
-            
-            userPreference.addToAvoidedIngredients(avoidedIngredient)
-        }
-        
-        do {
-            try viewContext.save()
-            print("Success: Created test Preference object with \(ingredientsToAvoid.count) avoided ingredients.")
-        } catch {
-            print("Error saving test preference: \(error.localizedDescription)")
-        }
-    }
-    
-    
     
     private func addTestProducts() {
         let masterList = MasterDataLoader.load()
@@ -150,7 +127,8 @@ struct DatabaseTestView: View {
             newProduct.brand = item.brand
             newProduct.last_updated_at = Date()
             newProduct.inciList = item.inciList
-            
+            newProduct.imageName = item.imageName
+            newProduct.barcode = item.barcode
             
             do {
                 try CoreDataManager.processAndLinkIngredients(
@@ -165,36 +143,15 @@ struct DatabaseTestView: View {
         
         do {
             try viewContext.save()
-            print("Success: saved \(masterList.count) products to the CoreData")
+            print("Success: saved \(masterList.count) products to CoreData")
         } catch {
             print("Error saving the products. \(error.localizedDescription)")
         }
     }
-    
-    private func saveFirstProductForTesting() {
-        guard let product = products.first else {
-            print("No products to save yet")
-            return
-        }
-
-        let saved = SavedProduct(context: viewContext)
-        saved.id = UUID()
-        saved.saved_at = Date()
-        saved.product = product
-
-        do {
-            try viewContext.save()
-            print("Saved product: \(product.name ?? "Unnamed")")
-        } catch {
-            print("Error saving SavedProduct: \(error.localizedDescription)")
-        }
-    }
-
 }
 
-
-// don't forget to pass context into preview object
-
 #Preview {
-    DatabaseTestView().environment(\.managedObjectContext, PreviewPersistenceController(inMemory: true).container.viewContext)
+    DatabaseTestView()
+        .environment(\.managedObjectContext,
+                     PreviewPersistenceController(inMemory: true).container.viewContext)
 }

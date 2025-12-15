@@ -19,9 +19,10 @@ extension AppProduct {
     @NSManaged public var barcode: String?
     @NSManaged public var brand: String?
     @NSManaged public var id: UUID?
+    @NSManaged public var inciList: String?
     @NSManaged public var last_updated_at: Date?
     @NSManaged public var name: String?
-    @NSManaged public var inciList: String?
+    @NSManaged public var imageName: String?
     @NSManaged public var ingredients: NSOrderedSet?
     @NSManaged public var savedBy: NSSet?
 
