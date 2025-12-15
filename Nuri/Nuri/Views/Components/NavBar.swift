@@ -42,7 +42,7 @@ struct NavBar: View {
 
             NavigationLink(destination: SavedView()) {
                 VStack {
-                    Image("Bookmark Icon")
+                    Image("BookMark Icon")
                     Text("Saved")
                         .foregroundColor(.white)
                         .font(.custom("Anuphan", size: 12))
