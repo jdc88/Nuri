@@ -41,7 +41,12 @@ struct MatchingResultsView: View {
     
     
     var body: some View {
-        ZStack {
+        // DEBUG: see what Core Data has
+        print("Search text: \(searchText)")
+        print("Total products in Core Data: \(products.count)")
+        print("Filtered products: \(filteredProducts.count)")
+        
+        return ZStack {
             Color(red: 245/255, green: 245/255, blue: 245/255)
                 .ignoresSafeArea()
 
