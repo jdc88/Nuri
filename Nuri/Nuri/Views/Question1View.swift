@@ -11,9 +11,39 @@ import SwiftUI
 
 struct Question1View: View {
     @State private var selectedSkinType: String? = nil
+    @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.dismiss) var dismiss
     
+    // variable to go to question2
+    @State private var goToQuestion2 = false
+    
+    @FetchRequest(
+        sortDescriptors: [],
+        animation: .default
+    )
+    private var profiles: FetchedResults<UserProfile>
+    
     let skinTypes = ["Normal", "Dry", "Oily", "Combination", "Sensitive"]
+    
+    // logic for checking if profile
+    private var userProfile: UserProfile {
+        if let existing = profiles.first {
+            return existing
+        } else {
+            let newProfile = UserProfile(context: viewContext)
+            newProfile.user_id = UUID()
+            newProfile.created_at = Date()
+            newProfile.username = "Guest"
+            newProfile.skin_type = "Normal"
+            do {
+                try viewContext.save()
+            } catch {
+                print("Error creating UserProfile: \(error.localizedDescription)")
+            }
+            return newProfile
+        }
+    }
+    
     
     var body: some View {
         NavigationStack {
@@ -123,8 +153,9 @@ struct Question1View: View {
                         Spacer()
                             .frame(height: 45)
                         
-                        Button(action: {
-                        }) {
+                        NavigationLink(
+                            destination: Question2View()
+                        ) {
                             Text("Save & Continue")
                                 .font(.custom("MergeOne-Regular", size: 23))
                                 .foregroundColor(.white)
@@ -133,7 +164,12 @@ struct Question1View: View {
                                 .background(Color(red: 105/255, green: 101/255, blue: 193/255))
                                 .cornerRadius(30)
                         }
+                        .simultaneousGesture(TapGesture().onEnded {
+                            saveSkinTypeAndContinue()
+                        })
                         .padding(.horizontal, 30)
+                        .disabled(selectedSkinType == nil)
+                        .opacity(selectedSkinType == nil ? 0.6 : 1)
                         
                         Spacer()
                             .frame(height: 15)
@@ -147,14 +183,39 @@ struct Question1View: View {
                         
                         Spacer()
                             .frame(height: 40)
+                        
                     }
                 }
             }
         }
-        .navigationBarHidden(true)
+        .navigationBarHidden(true).onAppear {
+            if let existing = userProfile.skin_type, !existing.isEmpty {
+                selectedSkinType = existing
+            }
+        }
     }
-}
+    
+    private func saveSkinTypeAndContinue() {
+            guard let selectedSkinType else {
+                return
+            }
+            userProfile.skin_type = selectedSkinType
+
+            do {
+                try viewContext.save()
+                print("Saved skin type: \(selectedSkinType)")
+            } catch {
+                print("Error saving skin type: \(error.localizedDescription)")
+            }
+
+            //dismiss()
+        }
+    }
 
 #Preview {
     Question1View()
+        .environment(
+            \.managedObjectContext,
+            PreviewPersistenceController(inMemory: true).container.viewContext
+        )
 }

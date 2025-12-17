@@ -30,7 +30,7 @@ struct ProfileView: View {
             newProfile.user_id = UUID()
             newProfile.created_at = Date()
             newProfile.username = "SomeUser"
-            newProfile.skin_type = "Nromal"
+            newProfile.skin_type = "Normal"
 
             do {
                 try viewContext.save()
@@ -129,7 +129,7 @@ struct ProfileView: View {
             }
         }
         .confirmationDialog(
-            "Select your skin type",
+            "Update your skin type",
             isPresented: $showingSkinTypePicker,
             titleVisibility: .visible
         ) {
