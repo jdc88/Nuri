@@ -2,7 +2,7 @@
 //  Preference+CoreDataProperties.swift
 //  Nuri
 //
-//  Created by Nicklaus Marietta on 12/14/25.
+//  Created by Nicklaus Marietta on 12/16/25.
 //
 //
 
@@ -21,6 +21,7 @@ extension Preference {
     @NSManaged public var type: String?
     @NSManaged public var avoidedIngredients: NSSet?
     @NSManaged public var user: UserProfile?
+    @NSManaged public var preferredIngredients: NSSet?
 
 }
 
@@ -38,6 +39,23 @@ extension Preference {
 
     @objc(removeAvoidedIngredients:)
     @NSManaged public func removeFromAvoidedIngredients(_ values: NSSet)
+
+}
+
+// MARK: Generated accessors for preferredIngredients
+extension Preference {
+
+    @objc(addPreferredIngredientsObject:)
+    @NSManaged public func addToPreferredIngredients(_ value: Ingredient)
+
+    @objc(removePreferredIngredientsObject:)
+    @NSManaged public func removeFromPreferredIngredients(_ value: Ingredient)
+
+    @objc(addPreferredIngredients:)
+    @NSManaged public func addToPreferredIngredients(_ values: NSSet)
+
+    @objc(removePreferredIngredients:)
+    @NSManaged public func removeFromPreferredIngredients(_ values: NSSet)
 
 }
 

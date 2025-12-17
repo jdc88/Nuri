@@ -17,6 +17,7 @@
         <attribute name="isAllergen" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="lowercase_name" optional="YES" attributeType="String"/>
         <relationship name="avoidingPreference" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Preference" inverseName="avoidedIngredients" inverseEntity="Preference"/>
+        <relationship name="preferredPreference" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Preference" inverseName="preferredIngredients" inverseEntity="Preference"/>
         <relationship name="products" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="AppProduct" inverseName="ingredients" inverseEntity="AppProduct"/>
     </entity>
     <entity name="Preference" representedClassName="Preference" syncable="YES">
@@ -24,6 +25,7 @@
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="type" optional="YES" attributeType="String"/>
         <relationship name="avoidedIngredients" toMany="YES" deletionRule="Nullify" destinationEntity="Ingredient" inverseName="avoidingPreference" inverseEntity="Ingredient"/>
+        <relationship name="preferredIngredients" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Ingredient" inverseName="preferredPreference" inverseEntity="Ingredient"/>
         <relationship name="user" maxCount="1" deletionRule="Cascade" destinationEntity="UserProfile" inverseName="preferences" inverseEntity="UserProfile"/>
     </entity>
     <entity name="SavedProduct" representedClassName="SavedProduct" syncable="YES">

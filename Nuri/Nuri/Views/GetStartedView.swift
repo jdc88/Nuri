@@ -13,6 +13,8 @@ struct GetStartedView: View {
     @State private var password: String = ""
     @State private var confirmPassword: String = ""
     
+    @State private var goToQuestion1 = false
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -62,6 +64,7 @@ struct GetStartedView: View {
                     
                     // Create Button
                     Button(action: {
+                        goToQuestion1 = true
                     }) {
                         Text("Create")
                             .font(.custom("MergeOne-Regular", size: 30))
@@ -74,9 +77,19 @@ struct GetStartedView: View {
                     Spacer()
                 }
             }
+            .background(
+                NavigationLink(
+                    destination: Question1View(),
+                    isActive: $goToQuestion1
+                ) {
+                    EmptyView()
+                }
+                .hidden()
+            )
         }
     }
 }
+
 
 // Floating TextField Component
 struct FloatingTextField: View {
