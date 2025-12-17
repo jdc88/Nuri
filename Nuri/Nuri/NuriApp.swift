@@ -37,7 +37,7 @@ struct NuriApp: App {
     let persistenceController = PersistenceController.shared
     var body: some Scene {
         WindowGroup {
-            Question1View()
+            GetStartedView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
                 .onAppear {
                     ProductImporter.importMasterListIfNeeded(

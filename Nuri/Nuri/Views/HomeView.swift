@@ -7,11 +7,52 @@
 
 import SwiftUI
 import PhotosUI
+import Vision
 
 struct HomeView: View {
     @State private var productName: String = ""
     @State private var selectedItem: PhotosPickerItem? = nil
     @State private var selectedImage: UIImage? = nil
+    
+    @State private var goToResults = false
+    
+    // helper function to scan
+    private func decodeBarcode(from image: UIImage, completion: @escaping (String?) -> Void) {
+        guard let cgImage = image.cgImage else {
+            completion(nil)
+            return
+        }
+
+        let request = VNDetectBarcodesRequest { request, error in
+            if let error = error {
+                print("Barcode detection error: \(error.localizedDescription)")
+                completion(nil)
+                return
+            }
+
+            guard let results = request.results as? [VNBarcodeObservation],
+                  let first = results.first,
+                  let payload = first.payloadStringValue else {
+                print("No barcode found in image")
+                completion(nil)
+                return
+            }
+
+            completion(payload)
+        }
+
+        let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
+
+        DispatchQueue.global(qos: .userInitiated).async {
+            do {
+                try handler.perform([request])
+            } catch {
+                print("Failed to perform barcode request: \(error.localizedDescription)")
+                completion(nil)
+            }
+        }
+    }
+
 
     var body: some View {
         NavigationStack {
@@ -35,15 +76,15 @@ struct HomeView: View {
                                 TextField("Search Product", text: $productName)
                                     .autocapitalization(.none)
                                     .disableAutocorrection(true)
-                                
-                                
+
                                 NavigationLink(
                                     destination: MatchingResultsView(searchText: productName)
                                 ) {
                                     Image(systemName: "magnifyingglass")
                                         .foregroundColor(.gray)
-                                }.disabled(productName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-                                    .opacity(productName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? 0.4 : 1)
+                                }
+                                .disabled(productName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                                .opacity(productName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? 0.4 : 1)
                             }
                             .padding()
                             .background(Color.white)
@@ -53,6 +94,15 @@ struct HomeView: View {
                                     .stroke(Color(red: 105/255, green: 101/255, blue: 193/255), lineWidth: 1)
                             )
                             .frame(maxWidth: 350)
+
+                            NavigationLink(
+                                destination: MatchingResultsView(searchText: productName),
+                                isActive: $goToResults
+                            ) {
+                                EmptyView()
+                            }
+                            .hidden()
+
                             
                             
                             Text("Or")
@@ -100,10 +150,22 @@ struct HomeView: View {
                                     
                                     // Scan/Search button
                                     Button(action: {
-                                        print("Run QR scan or product search")
-                                        // TODO: Add QR decoding logic here later
+                                        guard let img = selectedImage else { return }
+
+                                        decodeBarcode(from: img) { decoded in
+                                            DispatchQueue.main.async {
+                                                if let code = decoded {
+                                                    print("Decoded barcode: \(code)")
+                                                    productName = code
+                                                } else {
+                                                    print("No barcode detected, falling back to test code")
+                                                    productName = "8809504741653"   // backfall on qr data
+                                                }
+                                                goToResults = true
+                                            }
+                                        }
                                     }) {
-                                        Text("Scan QR Code")    // or "Search Product"
+                                        Text("Scan QR Code")
                                             .font(.system(size: 16, weight: .semibold))
                                             .foregroundColor(.white)
                                             .padding(.vertical, 12)
@@ -111,6 +173,7 @@ struct HomeView: View {
                                             .background(Color(red: 105/255, green: 101/255, blue: 193/255))
                                             .cornerRadius(10)
                                     }
+
                                 }
                             }
                             
