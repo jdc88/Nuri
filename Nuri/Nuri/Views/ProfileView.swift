@@ -44,7 +44,6 @@ struct ProfileView: View {
         }
     }
 
-    /// The Preference object attached to this user, if any
     private var preference: Preference? {
         let request: NSFetchRequest<Preference> = Preference.fetchRequest()
         request.fetchLimit = 1
@@ -102,7 +101,14 @@ struct ProfileView: View {
                                 .font(.subheadline)
                                 .foregroundColor(.secondary)
 
-                            HStack(spacing: 10) {
+                            // fits better with the layout on smaller screens
+                            LazyVGrid(
+                                columns: [
+                                    GridItem(.flexible(), spacing: 12),
+                                    GridItem(.flexible(), spacing: 12)
+                                ],
+                                spacing: 12
+                            ) {
                                 ForEach(skinTypes, id: \.self) { type in
                                     let isSelected = (type == (userProfile.skin_type ?? ""))
 
@@ -112,12 +118,11 @@ struct ProfileView: View {
                                         Text(type)
                                             .font(.system(size: 14, weight: .semibold))
                                             .padding(.vertical, 10)
-                                            .padding(.horizontal, 14)
                                             .frame(maxWidth: .infinity)
                                             .background(
                                                 RoundedRectangle(cornerRadius: 12)
-                                                    .fill(isSelected
-                                                          ? Color(red: 127/255, green:96/255, blue: 112/255)
+                                                    .fill(isSelected ?
+                                                          Color(red: 127/255, green:96/255, blue: 112/255)
                                                           : Color.white)
                                             )
                                             .overlay(
