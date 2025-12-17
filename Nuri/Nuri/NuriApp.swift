@@ -35,7 +35,6 @@ class PersistenceController {
 @main
 struct NuriApp: App {
     let persistenceController = PersistenceController.shared
-
     var body: some Scene {
         WindowGroup {
             Question1View()

@@ -53,9 +53,8 @@ struct Question3View: View {
                         
                         VStack(alignment: .leading, spacing: 0) {
                             Text("Let's Personalize Your Glow")
-                                .font(.custom("Anuphan", size: 26))
+                                .font(.custom("Anuphan-Bold", size: 26))
                                 .foregroundColor(Color(red: 122/255, green: 97/255, blue: 132/255))
-                                .fontWeight(.bold)
                                 .multilineTextAlignment(.leading)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                             
@@ -84,9 +83,8 @@ struct Question3View: View {
                             .frame(height: 25)
                         
                         Text("Are there any ingredients you prefer to avoid?")
-                            .font(.custom("Anuphan", size: 23))
+                            .font(.custom("Anuphan-Bold", size: 23))
                             .foregroundColor(Color(red: 91/255, green: 36/255, blue: 122/255))
-                            .fontWeight(.bold)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.horizontal, 30)
                         

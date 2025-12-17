@@ -6,13 +6,16 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct Question2View: View {
     @State private var selectedLovedIngredient: String? = nil
     @Environment(\.dismiss) var dismiss
     
-    let lovedIngredients = ["Hyaluronic Acid", "Vitamin C", "Niacinamide", "Salicylic Acid", "Ceramides"]
+    @Environment(\.managedObjectContext) private var viewContext
     
+    let lovedIngredients = ["Hyaluronic Acid", "Vitamin C", "Niacinamide", "Salicylic Acid", "Ceramides"]
+
     var body: some View {
         NavigationStack {
             ZStack {
@@ -53,9 +56,8 @@ struct Question2View: View {
                         
                         VStack(alignment: .leading, spacing: 0) {
                             Text("Let's Personalize Your Glow")
-                                .font(.custom("Anuphan", size: 26))
+                                .font(.custom("Anuphan-Bold", size: 26))
                                 .foregroundColor(Color(red: 122/255, green: 97/255, blue: 132/255))
-                                .fontWeight(.bold)
                                 .multilineTextAlignment(.leading)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                             
@@ -84,9 +86,8 @@ struct Question2View: View {
                             .frame(height: 25)
                         
                         Text("Which ingredients do you love seeing in your products?")
-                            .font(.custom("Anuphan", size: 23))
+                            .font(.custom("Anuphan-Bold", size: 23))
                             .foregroundColor(Color(red: 91/255, green: 36/255, blue: 122/255))
-                            .fontWeight(.bold)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.horizontal, 30)
                         
@@ -121,8 +122,9 @@ struct Question2View: View {
                         Spacer()
                             .frame(height: 45)
                         
-                        Button(action: {
-                        }) {
+                        NavigationLink(
+                            destination: Question3View()
+                        ) {
                             Text("Save & Continue")
                                 .font(.custom("MergeOne-Regular", size: 23))
                                 .foregroundColor(.white)
@@ -131,7 +133,14 @@ struct Question2View: View {
                                 .background(Color(red: 105/255, green: 101/255, blue: 193/255))
                                 .cornerRadius(30)
                         }
+                        .simultaneousGesture(TapGesture().onEnded {
+                            if let name = selectedLovedIngredient {
+                                savePreferredIngredient(named: name)
+                            }
+                        })
                         .padding(.horizontal, 30)
+                        .disabled(selectedLovedIngredient == nil)
+                        .opacity(selectedLovedIngredient == nil ? 0.6 : 1)
                         
                         Spacer()
                             .frame(height: 15)
@@ -151,8 +160,67 @@ struct Question2View: View {
         }
         .navigationBarHidden(true)
     }
-}
+    
+    private func getOrCreateUserProfile() -> UserProfile {
+        let request: NSFetchRequest<UserProfile> = UserProfile.fetchRequest()
+        request.fetchLimit = 1
 
-#Preview {
-    Question2View()
-}
+        if let existing = (try? viewContext.fetch(request))?.first {
+            return existing
+        }
+
+        let newProfile = UserProfile(context: viewContext)
+        newProfile.user_id = UUID()
+        newProfile.created_at = Date()
+        newProfile.username = "Guest"
+        newProfile.skin_type = "Normal"
+
+        do {
+            try viewContext.save()
+        } catch {
+            print("Error creating default UserProfile: \(error.localizedDescription)")
+        }
+
+        return newProfile
+    }
+
+
+    
+    private func savePreferredIngredient(named name: String) {
+            let prefRequest: NSFetchRequest<Preference> = Preference.fetchRequest()
+            prefRequest.fetchLimit = 1
+        
+            let userProfile = getOrCreateUserProfile()
+
+            let preference: Preference
+            do {
+                if let existing = try viewContext.fetch(prefRequest).first {
+                    preference = existing
+                } else {
+                    preference = Preference(context: viewContext)
+                    preference.id = UUID()
+                    preference.type = "preferred"
+                    preference.user = userProfile
+                }
+            } catch {
+                print("Failed to fetch Preference: \(error)")
+                return
+            }
+
+            let ingredientRequest: NSFetchRequest<Ingredient> = Ingredient.fetchRequest()
+            ingredientRequest.fetchLimit = 1
+            ingredientRequest.predicate = NSPredicate(format: "display_name CONTAINS[cd] %@", name)
+
+            do {
+                if let ingredient = try viewContext.fetch(ingredientRequest).first {
+                    preference.addToPreferredIngredients(ingredient)
+                    try viewContext.save()
+                    print("Added \(name) to preferredIngredients")
+                } else {
+                    print("No Ingredient found with display_name = \(name)")
+                }
+            } catch {
+                print("Error adding preferred ingredient: \(error)")
+            }
+        }
+    }
